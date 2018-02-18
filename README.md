@@ -67,3 +67,15 @@ The first step is to make a Github account and fork this repository (click on `F
   ```
 
   This will list all of the parameters you can change. For example, if you run `python main.py --b=0.5 --flip_prop=0.2`, the simulation will add a magnetic field of 0.5T and increase the flip proportion to 0.2. You can also edit the default parameters directly in the `main.py` file.
+
+  ### Some general benchmarks for code performance
+
+  Measured in average execution time for each temperature step (lower the better):
+
+  * Regular Python = 123.65 secs
+
+  * Python - 4 processes = 30.92 secs
+
+  * Regular Python with C = 12.38 secs
+
+  * Python with C - 4 processes = 1.23 secs
