@@ -1,6 +1,7 @@
 # 2D Ising Model
 
 Python code written by Surya Dutta
+
 C library written by Dave Stewart 
 
 ## Getting Started
