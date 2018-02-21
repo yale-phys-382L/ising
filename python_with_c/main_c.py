@@ -112,7 +112,7 @@ def run_simulation(t_min,t_max,t_step,n,num_steps,num_analysis,num_burnin,j,b,fl
 
     lattice.free_memory()
     if plots:
-        plot_graphs(temp_arr, M_mean_arr, E_mean_arr, M_std_arr, E_std_arr)
+        plot_graphs(temp_arr, M_mean_arr, M_std_arr, E_mean_arr, E_std_arr)
 
 def get_plot_values(temp,Msamp,Esamp,num_analysis): #only for plotting at end
     try:
