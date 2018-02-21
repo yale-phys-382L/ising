@@ -74,7 +74,7 @@ def run_simulation(t_min,t_max,t_step,n,num_steps,num_analysis,num_burnin,j,b,fl
             logging.error("Temp="+str(temp)+": Simulation Failed. No Data Written")
 
     if plots:
-        plot_graphs(temp_arr, M_mean_arr, E_mean_arr, M_std_arr, E_std_arr)
+        plot_graphs(temp_arr, M_mean_arr, M_std_arr, E_mean_arr, E_std_arr)
 
 #simulation options (enter python main.py --help for details)
 @click.command()
