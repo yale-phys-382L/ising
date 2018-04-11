@@ -54,6 +54,8 @@ class IsingLattice(object):
         return libc.get_Nbond(self.matrix_ptr)
     def get_spin(self, i, j):
         return libc.get_spin(self.matrix_ptr, i, j)
+    def set_spin(self, i, j, k):
+        return libc.set_spin(self.matrix_ptr, i, j, k)
     def print_spins(self):
         return libc.print_spins(self.matrix_ptr)
     def print_aligned(self):
@@ -68,32 +70,59 @@ class IsingLattice(object):
         return matrix
 
 if __name__ == '__main__':
-    lattice = IsingLattice(10,.01)
-    lattice.print_spins()
-    print('---')
-    lattice.print_aligned()
-    lattice.nsteps(8.,0.1,10000)
-    print('---')
-    lattice.print_spins()
-    print('---')
-    lattice.print_aligned()
+    from sys import argv
+    n = 5
+    if argv[1] == "0":
+        lattice = IsingLattice(5,.01)
+        print(argv[0])
+        lattice.print_spins()
+        print('---')
+        lattice.set_spin(0,0,1)
+        lattice.print_spins()
+        print('---')
+        lattice.set_spin(0,0,-1)
+        lattice.print_spins()
+        print('---')
 
-    lattice.randomize_spins()
-    # lattice.nsteps(100,2.2,3.0)
-    print('E: ',lattice.get_E())
-    print('M: ',lattice.get_M())
-    print('autocorrelation ', lattice.calc_auto_correlation())
-    print("set_Nflip:      ", lattice.set_Nflip(20))
-    print("get_Nspin:      " , lattice.get_Nspin())
-    print("get_Nalign:     " , lattice.get_Nalign())
-    print("nsteps:         " , lattice.nsteps(2.9,1.0,10000))
-    print("set_flip_prop   " , lattice.set_flip_prop(0.20))
-    print("nsteps:         " , lattice.nsteps(2.9,1.0,20000))
-    print("step:         " , lattice.step(2.9,1.0))
-    print("get_Nspin:      " , lattice.get_Nspin())
-    print("get_Nalign:     " , lattice.get_Nalign())
-    print('E: ',lattice.get_E())
-    print("N               " , lattice.N)
-    lattice.print_aligned()
-    lattice.free_memory()
+        flip = True
+        for i in range(n):
+            for j in range(n):
+                flip = not flip
+                if flip:
+                    lattice.set_spin(i,j,1)
+                else:
+                    lattice.set_spin(i,j,-1)
+        lattice.print_spins()
+        print('---')
+
+        lattice.free_memory()
+    else:
+        lattice = IsingLattice(10,.01)
+        lattice.print_spins()
+        print('---')
+        lattice.print_aligned()
+        lattice.nsteps(8.,0.1,10000)
+        print('---')
+        lattice.print_spins()
+        print('---')
+        lattice.print_aligned()
+
+        lattice.randomize_spins()
+        # lattice.nsteps(100,2.2,3.0)
+        print('E: ',lattice.get_E())
+        print('M: ',lattice.get_M())
+        print('autocorrelation ', lattice.calc_auto_correlation())
+        print("set_Nflip:      ", lattice.set_Nflip(20))
+        print("get_Nspin:      " , lattice.get_Nspin())
+        print("get_Nalign:     " , lattice.get_Nalign())
+        print("nsteps:         " , lattice.nsteps(2.9,1.0,10000))
+        print("set_flip_prop   " , lattice.set_flip_prop(0.20))
+        print("nsteps:         " , lattice.nsteps(2.9,1.0,20000))
+        print("step:         " , lattice.step(2.9,1.0))
+        print("get_Nspin:      " , lattice.get_Nspin())
+        print("get_Nalign:     " , lattice.get_Nalign())
+        print('E: ',lattice.get_E())
+        print("N               " , lattice.N)
+        lattice.print_aligned()
+        lattice.free_memory()
     exit(1)

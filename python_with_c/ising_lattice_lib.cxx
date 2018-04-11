@@ -44,11 +44,12 @@ class IsingMatrix{
     int   set_Npick(int in_val) { Npick = in_val; return 0; };
     int   set_J (float in_val) { J = in_val; return 0;} ;
     int   print_E() { cout << " Value of E: " << get_E() << endl; return 0; };
-	int   print_Nspin() { cout << " #spin: " << Nspin << endl; return 0; };
-	int   get_Nspin() { return Nspin; };
-	int   get_Nbond() { return Nbond; };
-	int   print_Nbond() { cout << " #bonds: " << Nbond << endl; return 0; };
+    int   print_Nspin() { cout << " #spin: " << Nspin << endl; return 0; };
+    int   get_Nspin() { return Nspin; };
+    int   get_Nbond() { return Nbond; };
+    int   print_Nbond() { cout << " #bonds: " << Nbond << endl; return 0; };
     int   get_spin(int i, int j) { return (site[i*N + j].spin ? 1 : -1); };
+    int   set_spin(int i, int j, int k) { site[i*N + j].spin = ((k > 0) ? true : false); return 0; };
     int   print_spins();     // defined
     int   print_bonds();     // defined
     int   initialize_spins(); // defined
@@ -71,14 +72,14 @@ class IsingMatrix{
     float flip_prob = 0.1;
     float E;
     float M;
-	float B;
+    float B;
     std::random_device rd;
     std::mt19937 gen;
     std::uniform_real_distribution<float> dis;
-	int flip_spin(int i);
+    int flip_spin(int i);
 
-	vector<int> indices; // used to pick the order of latice sights
-	int Npick;
+    vector<int> indices; // used to pick the order of latice sights
+    int Npick;
 };
 
 int IsingMatrix::print_spins() {
@@ -183,7 +184,6 @@ IsingMatrix::IsingMatrix(int set_N, int set_Npick)
 			site[(i+1)*N+j].up    = &site[i*N+j];
 		}
 	}
-
 	initialize_spins(); 
 }
 
@@ -329,6 +329,7 @@ extern "C" // Tells the compiler to use C-linkage for this scope.
 	int   get_Nbond( IsingMatrix* im ) { return im->get_Nbond(); };
 	int   print_Nbond( IsingMatrix* im ) { return im->print_Nbond(); };
     int   get_spin( IsingMatrix* im, int i, int j) { return im->get_spin(i,j); };
+    int   set_spin( IsingMatrix* im, int i, int j, int k ) { return im->set_spin(i,j,k); };
     int   print_spins( IsingMatrix* im ) { return im->print_spins(); };     // defined
     int   print_bonds( IsingMatrix* im ) { return im->print_bonds(); };     // defined
     int   initialize_spins( IsingMatrix* im ){ return im->initialize_spins(); }; // defined
