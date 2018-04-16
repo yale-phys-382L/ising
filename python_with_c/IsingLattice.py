@@ -71,9 +71,28 @@ class IsingLattice(object):
 
 if __name__ == '__main__':
     from sys import argv
-    n = 5
-    if argv[1] == "0":
-        lattice = IsingLattice(5,.01)
+    n = 10
+    if len(argv) == 1:
+        pass
+    elif argv[1] == "1":
+        lattice = IsingLattice(n,.1)
+        lattice.print_spins()
+        print("----")
+        for i in range(n):
+            for j in range(n):
+                continue
+                lattice.set_spin(i,j,1)
+        lattice.print_spins()
+        print("Nspin : %i"%lattice.get_Nspin())
+        print(" This is mag: %f"%lattice.get_M())
+        print("auto_corr:")
+        x = lattice.calc_auto_correlation()
+        for val in x:
+            print(val)
+        lattice.free_memory()
+        
+    elif argv[1] == "0":
+        lattice = IsingLattice(5,.1)
         print(argv[0])
         lattice.print_spins()
         print('---')

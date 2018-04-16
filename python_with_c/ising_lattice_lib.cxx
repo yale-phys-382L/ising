@@ -49,7 +49,9 @@ class IsingMatrix{
     int   get_Nbond() { return Nbond; };
     int   print_Nbond() { cout << " #bonds: " << Nbond << endl; return 0; };
     int   get_spin(int i, int j) { return (site[i*N + j].spin ? 1 : -1); };
-    int   set_spin(int i, int j, int k) { site[i*N + j].spin = ((k > 0) ? true : false); return 0; };
+    int   set_spin(int i, int j, int k) ;
+    void  flip_site(int i);
+          /* { site[i*N + j].spin = ((k > 0) ? true : false); return 0; }; */
     int   print_spins();     // defined
     int   print_bonds();     // defined
     int   initialize_spins(); // defined
@@ -81,6 +83,33 @@ class IsingMatrix{
     vector<int> indices; // used to pick the order of latice sights
     int Npick;
 };
+
+int IsingMatrix::set_spin(int ii, int jj, int kk){
+    int i = ii*N + jj;
+    bool set_spin_state = kk > 0;
+    if (site[i].spin != set_spin_state) flip_site(i);
+    return 1;
+};
+
+void IsingMatrix::flip_site(int i){
+    Nbond -= 2*site[i].n_bonds;
+    Nspin += ( site[i].spin ? -2 : +2 );
+  
+    site[i].spin    ^= true;
+    site[i].n_bonds *= -1;
+    
+    site[i].right->n_bonds += ( site[i].bond_right ? -2 : 2);
+    site[i].bond_right     ^= true;
+  
+    site[i].down->n_bonds += ( site[i].bond_down ? -2 : 2);
+    site[i].bond_down     ^= true;
+  
+    site[i].up->n_bonds   += ( site[i].up->bond_down ? -2 : 2);
+    site[i].up->bond_down ^= true;
+  
+    site[i].left->n_bonds    += ( site[i].left->bond_right ? -2: 2);
+    site[i].left->bond_right ^= true;
+}
 
 int IsingMatrix::print_spins() {
     for (int i = 0; i < N; ++i){
@@ -284,28 +313,8 @@ int IsingMatrix::step(float T, float B_in){
 	/* cout << " index flipped: "; */
 	for (int index = 0; index < n_flipped; ++index){	
 		int i = indices[index];
-		/* cout << " " << i; */
-
-		// flip the site
-		Nbond -= 2*site[i].n_bonds;
-		Nspin += ( site[i].spin ? -2 : +2 );
-
-		site[i].spin    ^= true;
-		site[i].n_bonds *= -1;
-		
-		site[i].right->n_bonds += ( site[i].bond_right ? -2 : 2);
-		site[i].bond_right     ^= true;
-
-		site[i].down->n_bonds += ( site[i].bond_down ? -2 : 2);
-		site[i].bond_down     ^= true;
-
-		site[i].up->n_bonds   += ( site[i].up->bond_down ? -2 : 2);
-		site[i].up->bond_down ^= true;
-
-		site[i].left->n_bonds    += ( site[i].left->bond_right ? -2: 2);
-		site[i].left->bond_right ^= true;
+		flip_site(i);
 	}
-	/* cout << endl; */
 		
 	return 0;	
 }
