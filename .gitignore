@@ -4,3 +4,5 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 *.dll
+
+python_with_c/data/
