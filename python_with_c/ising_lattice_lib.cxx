@@ -75,7 +75,7 @@ class IsingMatrix{
     float E;
     float M;
     float B;
-    std::random_device rd;
+    /* std::random_device rd; */
     std::mt19937 gen;
     std::uniform_real_distribution<float> dis;
     int flip_spin(int i);
@@ -178,7 +178,7 @@ int IsingMatrix::initialize_spins(){
 
 
 IsingMatrix::IsingMatrix(int set_N, int set_Npick) 
-  : N{set_N}, gen{rd()}, dis {0.0, 1.0}, Npick{set_Npick}
+  : N{set_N}, gen{std::mt19937(time(0))}, dis {0.0, 1.0}, Npick{set_Npick}
 { 
     NN = N*N;
     auto_correlation = new float[N/2 - 1];
