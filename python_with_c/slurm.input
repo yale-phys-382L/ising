@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH --job-name=my_job
+#SBATCH --ntasks=1 --nodes=1
+#SBATCH --cpus-per-task=5
+#SBATCH --mem-per-cpu=6000 
+#SBATCH --time=7:00:00
+#SBATCH -o slurm_%a.out
+
+source env.sh
+python3 main-multiprocessing_c.py --t_min=2.0 --t_max=3.2 --t_step=0.1 --n=60

@@ -6,3 +6,5 @@ __pycache__/
 *.dll
 
 python_with_c/data/
+
+python_with_c/ising_lattice_lib\.so
