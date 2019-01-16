@@ -3,14 +3,14 @@
 The main program here is ising.py which takes a variety of inputs and generates outputs of 
 the 2-D Ising model. The Ising lattice simulation is provided by two codes, one in Python
 and the other in C++. The C++ code is *much* faster, particularly for larger lattice sizes,
-but required a compiled library to work.
+but requires a compiled library to work.
 
 The files present are:
 
 * ising.py:
     You will most likely only need to modify this file.
     This contains the main program. It requires the following:
-    1. Python 3
+    1. Python3 (sorry, Python2 will not work)
     2. several modules:
         - logging
         - numpy
@@ -20,6 +20,7 @@ The files present are:
     It contains many named inputs from the command line. Each input is
     made with [word]:[value] where value is (case insensitive for boolean values) 
     T/F/True/False/number/string.
+    
     Numbers without decimal points are considered integers.
 
     The inputs options are:
