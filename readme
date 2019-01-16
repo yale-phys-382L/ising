@@ -76,7 +76,7 @@ The files present are:
 To be done:
     There are at least two major improvements to made in the code.
 
-    1. Add a 'step_SendsenWang' or a 'step_Wolf' (see lab handout for refernce)
+    1. Add a 'step_SwendsenWang' or a 'step_Wolf' (see lab handout for refernce)
        These algorithms overcome a large degree of the critical slowing that
        occures as the lattice approaches critical temperature, and would 
        allow some much better measurements.
