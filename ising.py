@@ -237,7 +237,11 @@ def run_ising_lattice(inp, T_final, skip_print=False):
         sys.exit()
 
 def plot_graphs(data): #T,E_mean,E_std,M_mean,M_std): #plot graphs at end
-    dat = np.matrix(data)
+    dat = np.array(data)
+    # print('data: ', dat)
+    # print('x: ', dat[:,1])
+    # x = dat[:,1][0]
+    # print('xlist: ', x)
 
     plt.figure(1)
     # plt.ylim(0,1)
