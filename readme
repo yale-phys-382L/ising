@@ -71,7 +71,9 @@ The files present are:
     the grace cluster
 
 * grace_environment.sh
-    A script
+    On the grace gluster, checkout your own node (unless you are just
+    submitting jobs to slurm) and then run
+    `source grace_environment.sh`
 
 To be done:
     There are at least two major improvements to made in the code.
