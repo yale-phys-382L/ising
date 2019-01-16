@@ -7,4 +7,4 @@
 #SBATCH -o slurm_%a.out
 
 source env.sh
-python3 main-multiprocessing_c.py --t_min=2.0 --t_max=3.2 --t_step=0.1 --n=60
+python3 ising.py N:60 multiprocess:True

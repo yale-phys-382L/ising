@@ -264,7 +264,7 @@ def get_filenames(inp): #make data folder if doesn't exist, then specify filenam
         # file name = [file_prefix]##_EM_v#.csv if only one temperature (example: runA_4.20_EM_v0.csv)
         #             [file_prefix]##T##_EM_v#.csv if there are two temperatures (example: runA_4.2T5.3_EM_v0.csv) 
         # the other file name is identical, but with "SC" (for spin correlation)) instead of EM
-        if inp['n_steps'] == 1:
+        if inp['t_max'] <= inp['t_min']:
             t_name = '%.2f'%inp['t_min']
         else:
             t_name = '%.2fT%.2f'%(inp['t_min'],inp['t_max'])
@@ -345,9 +345,16 @@ def listener(queue, inp, data):
         data['corr'].append(message[1])
         # print('--------\n',data)
 
+def make_T_array(inp):
+    if inp['t_max'] <= inp['t_min']:
+        return [inp['t_min'],]
+    else:
+        return np.arange(inp['t_min'], inp['t_max'], inp['t_step'])
+
+
 def run_multi_core(inp):
     print("\n2D Ising Model Simulation; multi-core\n")
-    T_array = np.arange(inp['t_min'], inp['t_max'], inp['t_step'])
+    T_array = make_T_array(inp)
 
     #must use Manager queue here, or will not work
     manager = mp.Manager()
@@ -377,7 +384,7 @@ def run_single_core(inp):
     # sequentially run through the desired temperatures and collect the output for each temperature
     data = []
     corr = []
-    for temp in np.arange(inp['t_min'],inp['t_max'],inp['t_step']):
+    for temp in make_T_array(inp):
         E, M, C = run_ising_lattice(inp, temp, skip_print=inp['skip_prog_print'])
         data.append( (temp, E.mean(), E.std(), M.mean(), M.std() ) )
         corr.append([temp,]+[x[1] for x in C])
