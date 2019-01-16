@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 from ctypes import *
 libc = CDLL("./ising_lattice_lib.so")
 
@@ -35,6 +36,7 @@ class IsingLattice(object):
         return float( libc.get_M(self.matrix_ptr) )
     def calc_auto_correlation(self):
         libc.calc_auto_correlation(self.matrix_ptr)
+        self.auto_correlation = []
         for i in range(1,int(self.N/2)):
             val = libc.auto_correlation(self.matrix_ptr, i)
             self.auto_correlation.append([i,val])
@@ -118,30 +120,25 @@ if __name__ == '__main__':
     else:
         lattice = IsingLattice(10,.01)
         lattice.print_spins()
-        print('---')
         lattice.print_aligned()
-        lattice.nsteps(8.,0.1,10000)
-        print('---')
-        lattice.print_spins()
-        print('---')
-        lattice.print_aligned()
+        lattice.nsteps(4.,2.1,10000)
 
-        lattice.randomize_spins()
-        # lattice.nsteps(100,2.2,3.0)
+        # lattice.randomize_spins()
         print('E: ',lattice.get_E())
         print('M: ',lattice.get_M())
         print('autocorrelation ', lattice.calc_auto_correlation())
         print("set_Nflip:      ", lattice.set_Nflip(20))
         print("get_Nspin:      " , lattice.get_Nspin())
         print("get_Nalign:     " , lattice.get_Nalign())
-        print("nsteps:         " , lattice.nsteps(2.9,1.0,10000))
-        print("set_flip_prop   " , lattice.set_flip_prop(0.20))
-        print("nsteps:         " , lattice.nsteps(2.9,1.0,20000))
-        print("step:         " , lattice.step(2.9,1.0))
+        # print("step:           " , lattice.step(2.9,1.0))
         print("get_Nspin:      " , lattice.get_Nspin())
         print("get_Nalign:     " , lattice.get_Nalign())
-        print('E: ',lattice.get_E())
+        print('E: '              , lattice.get_E())
         print("N               " , lattice.N)
-        lattice.print_aligned()
+        print('aligned')
+        # lattice.print_aligned()
+        print('spins')
+        # lattice.print_spins()
         lattice.free_memory()
-    exit(1)
+    print('exit')
+    sys.exit()

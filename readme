@@ -1,0 +1,85 @@
+# Ising Lattice Simulation Implementation
+
+The main program here is ising.py which takes a variety of inputs and generates outputs of 
+the 2-D Ising model. The Ising lattice simulation is provided by two codes, one in Python
+and the other in C++. The C++ code is *much* faster, particularly for larger lattice sizes,
+but required a compiled library to work.
+
+The files present are:
+
+* ising.py:
+    You will most likely only need to modify this file.
+    This contains the main program. It requires the following:
+    1. Python 3
+    2. several modules:
+        - logging
+        - numpy
+        - matplotlib
+    It will interface with either the Python or C++ lattice simulations.
+
+    It contains many named inputs from the command line. Each input is
+    made with [word]:[value] where value is (case insensitive for boolean values) 
+    T/F/True/False/number/string.
+    Numbers without decimal points are considered integers.
+
+    The inputs options are:
+    value           default   use
+    t_min           1.6       minimum temperature
+    t_max           3.6       maximum temperature (will not be included)
+    t_step          0.1       temperatures will be analyzed from t_min to t_max
+                              in increments of t_step and exlude t_max 
+    t_top           4.0       temperature parameter used by default temperature annealing
+    N               10        side of lattice, for a total of N*N sites
+    n_steps         10000     number of steps to evolve the ising lattice
+    n_burnin        2000      parameter for default annealing process
+    n_analyze       5000      number of steps measured for mean and std statistics
+    B               0         magnetic field strength
+    flip_perc       0.1       ratio of lattice-site that may flip in a step
+                              (note: this is exact in the C++ implementation,
+                              but only the average in the Python implementation)
+    dir_out         data      name of output directory
+    plots           False     option to distplay E and M plots after finishign running
+                              note: note available for multiprocess
+    print_inp       False     echo all of the input options to the command line
+    use_cpp         True      use C++ implementation; will switch off if the
+                              shared library is not present
+    date_output     False     add YYYYMMDD-HHMMSS postfix to output directory name
+    file_prefix     ''        string to prefix output files
+    multiprocess    False     use multiple processes
+    skip_prog_print False     do not provide progress output information
+                              note: progress info is not avialable in multiprocess
+
+
+* IsingLattice_python.py:
+    This is the Python implementation of the Ising lattice simulation.
+
+* IsingLattice_cpp.py:
+    This is a Python wrapper to talk to the compiled C++ library
+    for the IsingLattice
+
+* ising_lattice_lib.cxx:
+    This is the C++ library to compile for the ising simulation
+    It compiles ot ising_lattice_lib.so ('.so' for 'shared object')
+
+* linux_compile_c_library.sh:
+    This is a script to compile ising_lattice_lib.cxx in *NIX systems
+    It should work on the cluster and on your PC
+
+* slurm.input:
+    This is a sample slurm input script for running concurrent jobs on 
+    the grace cluster
+
+* grace_environment.sh
+    A script
+
+To be done:
+    There are at least two major improvements to made in the code.
+
+    1. Add a 'step_SendsenWang' or a 'step_Wolf' (see lab handout for refernce)
+       These algorithms overcome a large degree of the critical slowing that
+       occures as the lattice approaches critical temperature, and would 
+       allow some much better measurements.
+
+    2. The spin correlations are calculated only for the final step. It
+       would likely be *much* better to caclulate the avege and std of
+       these values, as is done for the E and M parameter.
